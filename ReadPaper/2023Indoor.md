@@ -65,8 +65,6 @@ dataset: Matterport3D， RealEstate10K
 
 使用的是7个scannet中的数据集，已经下载好了
 
-
-
 ## NeuralRoom: Geometry-Constrained Neural Implicit Surfaces for Indoor Scene Reconstruction (2022 ToG)
 
 使用的是8个从scannet中选取的场景。
@@ -101,11 +99,7 @@ dataset：Structured3D Dataset 和NYU v2
 
 基于曼哈顿世界假设的三维重建。
 
-
-
 ## CompoNeRF: Text-guided Multi-object Compositional NeRF with Editable 3D Scene Layout
-
-
 
 ## Nerflets: Local Radiance Fields for Efficient Structure-Aware   3D Scene Representation from 2D Supervision（arxiv 2023.3 Standford&Google）
 
@@ -115,11 +109,15 @@ dataset：Structured3D Dataset 和NYU v2
 
 主要创新：1.将layout用horizon depth和屋子高度来表示 2. 将transformer引入到全景图的估计网络中。3. 设计了一个相对位置embedding的方法来增强对空间的感知。
 
+使用了三个loss，一个是深度loss一个是normal loss，一个是gradient的loss。normal和gradient的计算都是基于预测的depth来做的。
+
 ## NeRF++
 
  SHAPE-RADIANCE AMBIGUITY
 
  INVERTED SPHERE PARAMETRIZATION
+
+## Learning Neural Duplex Radiance Fields for Real-Time View Synthesis (2023.4)
 
 ## Self-Supervised Monocular 3D Scene Reconstruction with Radiance Fields （arxiv 2022.12）
 
@@ -127,19 +125,13 @@ dataset：Structured3D Dataset 和NYU v2
 
 ## Zip-NeRF: Anti-Aliased Grid-Based Neural Radiance Fields （Google 2023.4 ）
 
-
-
 ## 360Roam: Real-Time Indoor Roaming Using Geometry-Aware ${360^\circ}$ Radiance Fields （2022.8）
 
 首先是定义360NeRF，实际上就是用全景图扩展到三维的坐标上。
 
 创新点在于Progressive probabilities geometry estimation。具体来说就是先估计occupancy map：首先训练360NeRF，基于这个预测深度来构建一个八叉树的octomap，保存每个voxel的occupancy，实际上process是不断更新这个occupancy
 
-
-
 # 多图Layout 估计
-
-
 
 ## 360-DFPE: Leveraging Monocular 360-Layouts for Direct Floor Plan Estimation （2022RAL）
 
@@ -159,11 +151,15 @@ dataset：Structured3D Dataset 和NYU v2
 
 ## Psmnet: Position-aware stereo merging network for room layout estimation （2022.3）
 
+| [Shape-Net: Room Layout Estimation from Panoramic Images Robust to Occlusion using Knowledge Distillation with 3D Shapes as Additional Inputs](https://arxiv.org/abs/2304.12624 "https://arxiv.org/abs/2304.12624") | CVPR 2023 Workshop |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
 
+| [U2RLE: Uncertainty-Guided 2-Stage Room Layout Estimation](https://arxiv.org/abs/2304.08580) | CVPR 2023 |
+| -------------------------------------------------------------------------------------------- | --------- |
 
 ## GPR-Net: Multi-view Layout Estimation via a Geometry-aware Panorama Registration Network(2022.10)
 
-
+## Disentangling Orthogonal Planes for Indoor Panoramic Room Layout Estimation with Cross-Scale Distortion Awareness （CVPR2023）
 
 # 多视图深度估计
 
@@ -172,3 +168,86 @@ dataset：Structured3D Dataset 和NYU v2
 [深度估计 ManyDepth 笔记_m_buddy的博客-CSDN博客](https://blog.csdn.net/m_buddy/article/details/117398459)
 
 [知乎问答，关于cost volume](https://www.zhihu.com/question/366970399/answer/1115449421)
+
+[知乎：无监督、自监督多视角立体视觉系列论文整理](https://zhuanlan.zhihu.com/p/439210991)
+
+无监督：
+
+[ICCV | 达摩院联合开源融合不确定度的自监督MVS框架_深度学习_AI记忆-DevPress官方社区](https://community.modelscope.cn/64015be92bcaa918ade99794.html)
+
+## Learning Unsupervised Multi-View Stereopsis via Robust Photometric Consistency
+
+[M3VSNet理解_朽一的博客-CSDN博客](https://blog.csdn.net/qq_43027065/article/details/120020511)
+
+## Self-supervised Learning of Depth Inference for Multi-view Stereo（CVPR2021）
+
+## Depth Estimation from Indoor Panoramas with Neural Scene Representation (CVPR 2023)
+
+从室内全景图中估计深度。
+
+创新点：新的spherical position embedding 来得到更好的准确度、并且基于曼哈顿假设提出了一种初始化方法。接着还听出了一个几何连续的监督方法
+
+## Estimating Generic 3D Room Structures from 2D Annotations（Arxiv 2023June Google）
+
+遇到的问题：原本房间布局的数据集就比较少，而且他们标注都比较简单，并且他们房间布局都是基于漫画吨或者cuboid。因此这里提出了一种标注的方法。不需要标注layout，只需要标注分割的mask就可以完成。相当于利用2d的标注就能实现三维标注的效果。
+
+
+
+# 少样本：
+
+## ViP-NeRF: Visibility Prior for Sparse Input Neural Radiance Fields （2023 Siggraph）
+
+考虑到用pretrain预测的深度先验不一定都很准，提出了用visibility prior。借助了plane sweep volumes的先验。我们工作的关键思想是使用给定的稀疏输入视图预估一个密集的可见性（visibility prior）来正则化NeRF
+
+plane sweep volumes (PSV)：将一个视角warp到另一个视角然后对比来得到error map
+
+
+
+## 和我们相关：
+
+|                                                                                                                                                |                 |           |      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------- | ---- |
+| 方法                                                                                                                                             | 时间              | 是否使用prior | 是否开源 |
+| Colmap重建                                                                                                                                       |                 |           | 是    |
+| NeRF                                                                                                                                           | 2020            | No        | Yes  |
+| Instant NGP                                                                                                                                    | 2022            | No        | Yes  |
+| NeRF++(一样划分了前后景)                                                                                                                               | 2021            | No        | Yes  |
+| Panoptic Neural Fields: A Semantic<br> Object-Aware Neural Scene Representation (和我们非常类似，涉及things和stuff的划分，但是比我们多了后续语义分割的监督)                   | 2022.5 CVPR2022 | Yes       | No   |
+| StructNeRF: Neural Radiance Fields for<br> Indoor Scenes with Structural Hints                                                                 | 2022.9 TPAMI在审  |           | No   |
+| Neural Rendering in a Room: Amodal 3D Understanding and<br> Free-Viewpoint Rendering for the Closed Scene Composed of Pre-Captured<br> Objects | Siggraph 2022   |           | No   |
+| NeuralRoom: Geometry-Constrained Neural Implicit Surfaces for Indoor Scene Reconstruction                                                      | ToG 2022        | Yes       | Yes  |
+| P^2SDF for Neural Indoor Scene Reconstruction                                                                                                  | Arxiv 2023.3    |           | No   |
+| I$^2$-SDF: Intrinsic Indoor Scene Reconstruction and Editing via Raytracing in Neural SDFs                                                     | CVPR 2023       |           | Yes  |
+| BUOL: A Bottom-Up Framework with  Occupancy-aware Lifting for Panoptic 3D Scene Reconstruction From A Single  Image                            | CVPR2023        |           | Yes  |
+| Behind the Scenes: Density Fields for  Single View Reconstruction                                                                              | CVPR2023        |           | Yes  |
+| ViP-NeRF: Visibility Prior for Sparse Input  Neural Radiance Fields （少样本）                                                                      | Siggraph 2023   | Yes       | No   |
+
+## Behind the Scenes: Density Fields for Single View Reconstruction （CVPR 2023)
+
+motivation：对于NeRF来说同时学习颜色和三维太困难了，因此改进核心是直接只预测density，构建density field，对于颜色，就直接从输入图片中获得。
+
+
+
+## StructNeRF: Neural Radiance Fields for Indoor Scenes with Structural Hints (2022.9)
+
+目前面临两个困难。一个是少样本，一个是textureless regions。
+
+观察到学习view dependent 颜色会导致shape-radiance ambiguity。为了解决这个问题，我们基于depth warping设计了multi-view consistency photometric loss。但是这个loss实际上并没有解决non-textured区域的问题。因此将这些区域限制成平面。做法是将这些像素划分成superpixel，然后发现这些都是平面。然后借助co-planar constraint来限制这些区域的深度。
+
+总结：三个改进：multi-view consistent photometric loss、planar consistency loss 、warm-up training strategy
+
+第一个实际上就是利用预测的depth 来进行warp，warp后增加loss
+
+第二个是先超像素分割。所谓超像素，实际上就是具有相似纹理、颜色、亮度等特征的相邻像素构成的有一定视觉意义的不规则像素块。文章使用了已有的超像素分割技术。在超像素的区域中选四个点，投影到三维空间中，通过计算AB 叉乘AC得到的直线与AD垂直（也就是让这四个点都在一个平面上）。如果不垂直就不等于0，就会引入loss
+
+## I2-SDF: Intrinsic Indoor Scene Reconstruction and Editing via Raytracing in Neural SDFs （CVPR2023 ）
+
+inverse rendering可以做material和lighting的decomposition，但是对于场景来说还是不太够，并且实际上已经有light信息了。因此提出用implicit的方式来表示场景中的形状材质等信息。在这个表示中第一个使用到了Monte Carlo raytracing技术。同时贡献还在于bubble loss 和error-guided adaptive sampling strategy. 
+
+Bubble loss:分析中可以得到为什么训练时候小的部件学不出来。因为随着sdf的值增加，这个训练梯度会消失，因此为了解决这个问题，就加了loss，将深度图上每个点都投影到三维2点上，这个三维点的loss应该是0。（也就是说需要GT depth）。
+
+但是直接用bubble loss在那些不是小部件的物体上太浪费了。所以先找出小部件在哪。小部件通常是high frequency的。我们先定义一个error metric。我们让重要性采样的时候的pdf符合这个error 分布。
+
+
+
+## SimpleRecon: 3D Reconstruction Without 3D Convolutions （ECCV2022)
